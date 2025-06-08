@@ -2,7 +2,7 @@
 
 Welcome to my personal website, built with HTML, CSS, and JavaScript.
 
-🔗 [Visit live site](https://stefanoss98.github.io/personal-site)
+🔗 [Visit live site](https://stefanoss98.github.io/Personal-Site)
 
 ## Features
 - Responsive design
