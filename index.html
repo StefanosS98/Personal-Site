@@ -14,6 +14,39 @@ html {
    scroll-behavior: smooth;
 }
 
+/* Default position (off-screen) */
+#mySidebar {
+  position: fixed;
+  top: 0;
+  left: -300px; /* Initially hidden off-screen */
+  height: 100%;
+  transition: left 0.5s ease; /* Animation for the opening and closing */
+}
+
+/* For the overlay */
+#myOverlay {
+  display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.5s ease; /* Smooth fade-in/out */
+}
+
+/* Show the sidebar and overlay when opened */
+#mySidebar.open {
+  left: 0; /* Sidebar slides into view */
+}
+
+#myOverlay.show {
+  display: block;
+  opacity: 1;
+}   
+
 #scrollTopBtn {
   display: none;
   position: fixed;
@@ -236,15 +269,26 @@ fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated`)
   });
 
   // Script to open and close sidebar
-  function w3_open() {
-      document.getElementById("mySidebar").style.display = "block";
-      document.getElementById("myOverlay").style.display = "block";
-  }
- 
-  function w3_close() {
-      document.getElementById("mySidebar").style.display = "none";
-      document.getElementById("myOverlay").style.display = "none";
-  }
+   function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";  // Open sidebar
+    document.getElementById("myOverlay").style.display = "block";  // Show overlay
+    setTimeout(function() { // Delay to allow animation of the sidebar
+        document.getElementById("mySidebar").classList.add("open");
+        document.getElementById("myOverlay").classList.add("show");
+    }, 10);
+   }
+
+    function w3_close() {
+    document.getElementById("mySidebar").classList.remove("open"); // Add animation for closing
+    document.getElementById("myOverlay").classList.remove("show"); // Remove overlay with animation
+    
+    // Wait for the animation to finish before hiding the sidebar and overlay completely
+    setTimeout(function() {
+        document.getElementById("mySidebar").style.display = "none"; // Hide sidebar
+        document.getElementById("myOverlay").style.display = "none"; // Hide overlay
+    }, 500); // Timeout duration should match the transition duration
+   }
+
 
   document.getElementById("contactForm").addEventListener("submit", async function(event) {
   event.preventDefault();
