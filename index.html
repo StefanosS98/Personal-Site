@@ -20,7 +20,14 @@ html {
   top: 0;
   left: -300px; /* Initially hidden off-screen */
   height: 100%;
+  width: 300px;
   transition: left 0.5s ease; /* Animation for the opening and closing */
+  z-index: 3;
+}
+
+/* Show sidebar when open */
+#mySidebar.open {
+  left: 0; /* Sidebar slides into view */
 }
 
 /* For the overlay */
@@ -37,15 +44,21 @@ html {
   transition: opacity 0.5s ease; /* Smooth fade-in/out */
 }
 
-/* Show the sidebar and overlay when opened */
-#mySidebar.open {
-  left: 0; /* Sidebar slides into view */
-}
-
+/* Show the overlay when sidebar is open */
 #myOverlay.show {
   display: block;
   opacity: 1;
-}   
+}
+
+/* For large screens, keep the sidebar visible */
+@media (min-width: 1024px) {
+  #mySidebar {
+    left: 0; /* Keep the sidebar visible */
+  }
+  #mySidebar.open {
+    left: 0; /* No transition needed */
+  }
+}
 
 #scrollTopBtn {
   display: none;
@@ -268,7 +281,7 @@ fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated`)
     document.getElementById("github-projects").innerHTML = "<p>Could not load GitHub repositories.</p>";
   });
 
-  // Script to open and close sidebar
+   // Script to open and close sidebar
    function w3_open() {
     document.getElementById("mySidebar").style.display = "block";  // Open sidebar
     document.getElementById("myOverlay").style.display = "block";  // Show overlay
@@ -276,9 +289,9 @@ fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated`)
         document.getElementById("mySidebar").classList.add("open");
         document.getElementById("myOverlay").classList.add("show");
     }, 10);
-   }
+  }
 
-    function w3_close() {
+   function w3_close() {
     document.getElementById("mySidebar").classList.remove("open"); // Add animation for closing
     document.getElementById("myOverlay").classList.remove("show"); // Remove overlay with animation
     
@@ -287,7 +300,7 @@ fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated`)
         document.getElementById("mySidebar").style.display = "none"; // Hide sidebar
         document.getElementById("myOverlay").style.display = "none"; // Hide overlay
     }, 500); // Timeout duration should match the transition duration
-   }
+  }
 
 
   document.getElementById("contactForm").addEventListener("submit", async function(event) {
